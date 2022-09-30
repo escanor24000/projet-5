@@ -4,6 +4,9 @@ const app = express();
 
 app.use(express.json());
 
+const saucesRoutes = require('./routes/sauces');
+const userRoutes = require('./routes/user');
+
 const mongoose = require('mongoose');
 mongoose.connect('mongodb+srv://escanor:FFiFldoyFAbJCTgJ@cluster0.9smlcxc.mongodb.net/test',
   { useNewUrlParser: true,
@@ -18,17 +21,8 @@ app.use((req, res, next) => {
     next();
 });
 
-app.post('/api/auth/signup', (req, res, next) => {
+app.use('/api/sauces', saucesRoutes);
+app.use('/api/auth', userRoutes);
 
-});
-app.delete
-
-app.get('/api/sauces', (req, res, next) => {
-    res.json({ message: 'Votre requête a bien été reçue !' });
- });
-
-app.get('/api/sauces/:id', (req, res, next) => {
-    res.json({ message: 'Votre requête id a bien été reçue !' });
-});
 
 module.exports = app;
