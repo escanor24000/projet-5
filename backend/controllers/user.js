@@ -5,7 +5,7 @@ const User = require('../models/user');
 
 exports.signup = (req, res, next) => {
     if(valideEmail(req.body.email)){
-        bcrypt.hash(req.body.passeword, 10)
+        bcrypt.hash(req.body.password, 10)
         .then(hash => {
             const user = new User({
                 email: req.body.email,
@@ -27,7 +27,7 @@ exports.login = (req, res, next) => {
         if (user === null) {
             res.status(401).json({message: 'Paire login/mot de passe incorrecte' });
         } else{
-            bcrypt.compare(req.body.passeword, user.passeword)
+            bcrypt.compare(req.body.password, user.passeword)
             .then(valid => {
                 if (!valid) {
                     res.status(401).json({message: 'Paire login/mot de passe incorrecte' })
@@ -42,7 +42,10 @@ exports.login = (req, res, next) => {
                     });
                 }
             })
-            .catch(error => res.status(500).json({ error }));
+            .catch(error => {
+                console.log(error);
+               return res.status(500).json({ error })
+            });
         }
     })
     .catch(error => res.status(500).json({ error }));

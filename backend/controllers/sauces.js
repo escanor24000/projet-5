@@ -2,14 +2,20 @@ const { updateOne } = require('../models/thing');
 const Thing = require('../models/thing');
 
 exports.createThing = (req, res, next) => {
-    Thing.find({"name":req.body.name});
+  const obj = JSON.parse(req.body.sauce);
+  console.log(obj);
+    Thing.find({"name":obj.name});
     const thing = new Thing({
-      ...req.body,
+      ...obj,
       imageUrl : req.file.filename,
     });
+    console.log(thing);
     thing.save()
       .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
-      .catch(error => res.status(400).json({ error }));
+      .catch(error => {
+        //console.log(error);
+        return res.status(400).json({ error })
+      });
     };
 
 exports.getAllThings = (req, res, next) => {
