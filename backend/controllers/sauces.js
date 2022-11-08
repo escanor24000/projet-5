@@ -7,7 +7,7 @@ exports.createThing = (req, res, next) => {
     Thing.find({"name":obj.name});
     const thing = new Thing({
       ...obj,
-      imageUrl : req.file.filename,
+      imageUrl : "http://localhost:3000/images/"+req.file.filename,
     });
     console.log(thing);
     thing.save()
