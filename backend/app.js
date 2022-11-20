@@ -7,8 +7,11 @@ app.use(express.json());
 const saucesRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
 
+const dotenv = require("dotenv");
+const result = dotenv.config();
+
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://escanor:FFiFldoyFAbJCTgJ@cluster0.9smlcxc.mongodb.net/test',
+mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSEWORD}@cluster0.9smlcxc.mongodb.net/${process.env.DB_NAME}`,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))

@@ -13,7 +13,7 @@ exports.createThing = (req, res, next) => {
     thing.save()
       .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
       .catch(error => {
-        //console.log(error);
+        console.log(error);
         return res.status(400).json({ error })
       });
     };
@@ -40,7 +40,6 @@ exports.modifyThing = (req, res, next) => {
 
 exports.deleteThing = (req, res, next) => {
   console.log(req.params.id);
-  console.log('hello');
     Thing.deleteOne({ _id: req.params.id })
       .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
       .catch(error => res.status(400).json({ error }));
