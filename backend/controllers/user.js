@@ -1,11 +1,13 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const valideEmail = require('../middleware/valide-email');
+const validPassword = require('../middleware/valide-password');
 const User = require('../models/user');
 
 exports.signup = (req, res, next) => {
     if(valideEmail(req.body.email)){
-        bcrypt.hash(req.body.passeword, 10)
+       if(validPassword(req.body.password)){
+        bcrypt.hash(req.body.password, 10)
         .then(hash => {
             const user = new User({
                 email: req.body.email,
@@ -15,7 +17,10 @@ exports.signup = (req, res, next) => {
                 .then(error => res.status(201).json({ message: 'Utilisateur créé !' }))
                 .catch(error => res.status(400).json({ error }));
         })
-        .catch(error => res.status(500).json({ error })); 
+        .catch(error => res.status(500).json({ error }));
+        }else{
+            res.status(400).json({message: 'password incorecte' });
+        }
     }else{
         res.status(400).json({message: 'email incorecte' });
     }
