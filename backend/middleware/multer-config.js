@@ -1,19 +1,17 @@
 const multer = require('multer');
 
-const MIME_TYPES = {
-  'image/jpg': 'jpg',
-  'image/jpeg': 'jpeg',
-  'image/png': 'png'
-};
+MIME_TYPES = ['image/jpeg','image/jpg','image/png']
 
 function fileFilter (req, file, cb){
-
-  cb(null, false)
-
+  console.log(file.mimetype);
+  if(MIME_TYPES.indexOf(file.mimetype) !== -1){
   cb(null, true)
-
+} else{  
   cb(new Error('le fichier n\'est pas reconnue'))
 }
+
+};
+
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
@@ -27,4 +25,4 @@ const storage = multer.diskStorage({
   }
 });
 
-module.exports = multer({storage: storage}).single('image');
+module.exports = multer({fileFilter:fileFilter,storage:storage}).single('image');
