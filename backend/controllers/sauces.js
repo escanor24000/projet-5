@@ -54,7 +54,7 @@ exports.deleteThing = (req, res, next) => {
     };
 
 exports.like = (req, res, next) => {
-  .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
+  then(() => res.status(200).json({ message: 'Objet like'}))
   .catch(error => res.status(400).json({ error }));
 };
 
