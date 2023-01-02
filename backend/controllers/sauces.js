@@ -5,8 +5,27 @@ const thing = require('../models/thing');
 
 exports.createThing = (req, res, next) => {
   const obj = JSON.parse(req.body.sauce);
+  const nameThing = obj.name;
+  const manufacturerThing = obj.manufacturer;
+  const descriptionThing = obj.description;
+  const ingredientThing = obj.mainPepper;
+
+  if(nameThing.trim()==""){
+    res.status(400).json({ message: 'Le nom ne peut pas être vide' })
+  }
+
+  if(manufacturerThing.trim()==""){
+    res.status(400).json({ message: 'Le manufacturer ne peut pas être vide' })
+  }
+  if(descriptionThing.trim()==""){
+    res.status(400).json({ message: 'La description ne peut pas être vide' })
+  }
+
+  if(ingredientThing.trim()==""){
+    res.status(400).json({ message: 'Les ingredient ne peut pas être vide' })
+  }
+
   if (validNote(obj.heat)) {
-    //console.log(obj);
     Thing.find({ "name": obj.name });
     const thing = new Thing({
       ...obj,
@@ -83,7 +102,7 @@ exports.like = (req, res, next) => {
                 $push: { usersDisliked: req.body.userId }
               }
             )
-              .then(() => res.status(200).json({ message: 'dislikes 1' }))
+              .then(() => res.status(200).json({ message: 'dislikes +1' }))
               .catch(error => res.status(400).json({ error }));
           };
           break;
@@ -114,6 +133,10 @@ exports.like = (req, res, next) => {
               .catch(error => res.status(400).json({ error }));
           }
           break;
+
+          default:
+            res.status(321).json({ message: 'probléme valeur note' });
+            break;
       }
     })
     .catch(error => res.status(400).json({ error }));
