@@ -10,18 +10,18 @@ exports.createThing = (req, res, next) => {
   const descriptionThing = obj.description;
   const ingredientThing = obj.mainPepper;
 
-  if(nameThing.trim()==""){
+  if (nameThing.trim() == "") {
     res.status(400).json({ message: 'Le nom ne peut pas être vide' })
   }
 
-  if(manufacturerThing.trim()==""){
+  if (manufacturerThing.trim() == "") {
     res.status(400).json({ message: 'Le manufacturer ne peut pas être vide' })
   }
-  if(descriptionThing.trim()==""){
+  if (descriptionThing.trim() == "") {
     res.status(400).json({ message: 'La description ne peut pas être vide' })
   }
 
-  if(ingredientThing.trim()==""){
+  if (ingredientThing.trim() == "") {
     res.status(400).json({ message: 'Les ingredient ne peut pas être vide' })
   }
 
@@ -134,9 +134,9 @@ exports.like = (req, res, next) => {
           }
           break;
 
-          default:
-            res.status(321).json({ message: 'probléme valeur note' });
-            break;
+        default:
+          res.status(321).json({ message: 'probléme valeur note' });
+          break;
       }
     })
     .catch(error => res.status(400).json({ error }));
