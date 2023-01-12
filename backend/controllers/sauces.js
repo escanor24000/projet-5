@@ -82,57 +82,57 @@ exports.modifyThing = (req, res, next) => {
   }
 
   if (validNote(obj.heat)) {
-    Thing.findOne({_id: req.params.id})
-    .then((objupdate)=>{
-      let filename = objupdate.imageUrl.split('/').pop();
-      console.log(req.body)
-      //console.log(filename)
-      fs.unlink(`public/images/${filename}`, () =>{
-        const thing = new Thing({
-          ...obj,
-          _id: req.params.id,
-          imageUrl: "http://localhost:3000/images/" + req.file.filename,
-        });
-        Thing.updateOne({_id: req.params.id},{
-          ...obj,
-          _id: req.params.id,
-          imageUrl: "http://localhost:3000/images/" + req.file.filename,
-        } )
-      .then(() => res.status(201).json({ message: 'Objet enregistré !' }))
+    Thing.findOne({ _id: req.params.id })
+      .then((objupdate) => {
+        let filename = objupdate.imageUrl.split('/').pop();
+        console.log(req.body)
+        //console.log(filename)
+        fs.unlink(`public/images/${filename}`, () => {
+          const thing = new Thing({
+            ...obj,
+            _id: req.params.id,
+            imageUrl: "http://localhost:3000/images/" + req.file.filename,
+          });
+          Thing.updateOne({ _id: req.params.id }, {
+            ...obj,
+            _id: req.params.id,
+            imageUrl: "http://localhost:3000/images/" + req.file.filename,
+          })
+            .then(() => res.status(201).json({ message: 'Objet enregistré !' }))
 
-      .catch(error => {
-        console.log(error);
-        return res.status(400).json({ error })
-      });
+            .catch(error => {
+              console.log(error);
+              return res.status(400).json({ error })
+            });
+        })
       })
-    })
-  }else{
+  } else {
     res.status(301).json({ message: 'note incorrect' })
   }
 };
 
 exports.deleteThing = (req, res, next) => {
   //console.log(req.params.id);
-  
-  Thing.findOne({_id: req.params.id})
-  .then((obj)=>{
-    let filename = obj.imageUrl.split('/').pop();
 
-    console.log(filename)
-    console.log(`public/${filename}`)
-    fs.unlink(`public/images/${filename}`, () =>{
-      Thing.deleteOne({_id: req.params.id})
-      .then(() => res.status(200).json({ message: 'Objet supprimé !' }))
-      .catch(error => res.status(404).json({ error }));
+  Thing.findOne({ _id: req.params.id })
+    .then((obj) => {
+      let filename = obj.imageUrl.split('/').pop();
+
+      //console.log(filename)
+      //console.log(`public/${filename}`)
+      fs.unlink(`public/images/${filename}`, () => {
+        Thing.deleteOne({ _id: req.params.id })
+          .then(() => res.status(200).json({ message: 'Objet supprimé !' }))
+          .catch(error => res.status(404).json({ error }));
+      })
     })
-  })
-  .catch(error => res.status(500).json({ error }));
+    .catch(error => res.status(500).json({ error }));
 
   Thing.deleteOne({ _id: req.params.id })
-  .then(() => res.status(200).json({ message: 'Objet supprimé !' }))
-  .catch(error => res.status(400).json({ error }));
+    .then(() => res.status(200).json({ message: 'Objet supprimé !' }))
+    .catch(error => res.status(400).json({ error }));
 
-}; 
+};
 
 exports.like = (req, res, next) => {
   Thing.findOne({ _id: req.params.id })
